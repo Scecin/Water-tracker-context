@@ -5,12 +5,14 @@ import UserContext from '../context/UserContext';
 import '../App.css';
 import Header from '../components/Header';
 import TrackerContainer from '../containers/TrackerContainer';
+import { useModal } from '../hooks';
 
 const MainPage = () => {
 
     const [name, setName] = useState('Stranger');
     const [goal, setGoal] = useState(1);
-    const [isModalOpen, setIsModalOpen] = useState(true);
+    // const [isModalOpen, setIsModalOpen] = useState(true);
+    const apiResponse = useModal()
 
     const handleNameChange = (e) => {
         setName(e.target.value)
@@ -20,14 +22,12 @@ const MainPage = () => {
         setGoal(parseInt(e.target.value))
     }
 
-    const toggleModal = () => {
-        setIsModalOpen(!isModalOpen);
-    }
+    
 
     return (
         <>
             <Modal
-                isOpen={isModalOpen}
+                isOpen={apiResponse.isModalOpen}
                 ariaHideApp={false}
                 contentLabel="User options"
             >
@@ -36,12 +36,11 @@ const MainPage = () => {
                 <br></br>
                 <label htmlFor='goal'>Your goal: </label>
                 <input type="number" min="1" name="goal" defaultValue={goal} onChange={handleGoalChange} />
-                <button onClick={toggleModal}>OK</button>
+                <button onClick={apiResponse.toggleModal}>OK</button>
             </Modal>
 
-            
             <UserContext.Provider value={{name, goal}}>
-            <Header/>
+                <Header name={name}/>
                 <TrackerContainer/>
             </UserContext.Provider>
         </>
