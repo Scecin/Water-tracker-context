@@ -1,5 +1,9 @@
+import { useContext } from "react";
+import UserContext from "../context/UserContext";
 
-const Header = ({name}) => {
+const Header = () => {
+
+    const {name} = useContext(UserContext)
 
     return (
         <>
